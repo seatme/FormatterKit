@@ -73,7 +73,7 @@ TTTWeekday TTTWeekdayForNSDate(NSDate *date) {
 @synthesize closingMinute = _closingMinute;
 
 + (id)hoursWithString:(NSString *)string {
-	TTTHoursOfOperationSegment *dailyHours = [[[TTTHoursOfOperationSegment alloc] init] autorelease];
+	TTTHoursOfOperationSegment *dailyHours = [[TTTHoursOfOperationSegment alloc] init];
 	
 	NSCharacterSet *nonDecimalCharacterSet = [[NSCharacterSet decimalDigitCharacterSet] invertedSet];
 	NSArray *components = [[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] componentsSeparatedByCharactersInSet:nonDecimalCharacterSet];
@@ -90,8 +90,8 @@ TTTWeekday TTTWeekdayForNSDate(NSDate *date) {
 }
 
 + (NSString *)descriptionForSegments:(NSSet *)segments {
-	NSSortDescriptor *hourSortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"openingHour" ascending:YES] autorelease];
-	NSSortDescriptor *minuteSortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"openingMinute" ascending:YES] autorelease];
+	NSSortDescriptor *hourSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"openingHour" ascending:YES];
+	NSSortDescriptor *minuteSortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"openingMinute" ascending:YES];
 	NSArray *sortedSegments = [[segments allObjects] sortedArrayUsingDescriptors:[NSArray arrayWithObjects:hourSortDescriptor, minuteSortDescriptor, nil]];
 	
 	return [[sortedSegments valueForKeyPath:@"description"] componentsJoinedByString:NSLocalizedString(@", ", @"(delimiter)")];
@@ -133,7 +133,7 @@ TTTWeekday TTTWeekdayForNSDate(NSDate *date) {
 }
 
 - (NSDateComponents *)openingDateComponents {
-	NSDateComponents *dateComponents = [[[NSDateComponents alloc] init] autorelease];
+	NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
 	[dateComponents setHour:self.openingHour];
 	[dateComponents setMinute:self.openingMinute];
 	
@@ -150,7 +150,7 @@ TTTWeekday TTTWeekdayForNSDate(NSDate *date) {
 }
 
 - (NSDateComponents *)closingDateComponents {
-	NSDateComponents *dateComponents = [[[NSDateComponents alloc] init] autorelease];
+	NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
 	[dateComponents setHour:self.closingHour];
 	[dateComponents setMinute:self.closingMinute];
 	
@@ -182,16 +182,16 @@ TTTWeekday TTTWeekdayForNSDate(NSDate *date) {
 	
 	if ([string isEqualToString:@"closed"]) {
 		dailyHours.closed = YES;
-		return [dailyHours autorelease];
+		return dailyHours;
 	}
 	
-	NSMutableSet *mutableSegments = [[dailyHours.segments mutableCopy] autorelease];
+	NSMutableSet *mutableSegments = [dailyHours.segments mutableCopy];
 	for (NSString *componentSubstring in [string componentsSeparatedByString:@","]) {
 		[mutableSegments addObject:[TTTHoursOfOperationSegment hoursWithString:componentSubstring]];
 	}
 	dailyHours.segments = [NSSet setWithSet:mutableSegments];
 	
-	return [dailyHours autorelease];
+	return dailyHours;
 }
 
 - (id)initWithWeekday:(TTTWeekday)someWeekday {
@@ -204,11 +204,6 @@ TTTWeekday TTTWeekdayForNSDate(NSDate *date) {
 	self.segments = [NSSet set];
 	
 	return self;
-}
-
-- (void)dealloc {
-	[_segments release];
-	[super dealloc];
 }
 
 - (NSString *)description {
@@ -262,13 +257,13 @@ TTTWeekday TTTWeekdayForNSDate(NSDate *date) {
 		return nil;
 	}
 	
-	self.sundayHours = [[[TTTDailyHoursOfOperation alloc] initWithWeekday:TTTSunday] autorelease];
-	self.mondayHours = [[[TTTDailyHoursOfOperation alloc] initWithWeekday:TTTMonday] autorelease];
-	self.tuesdayHours = [[[TTTDailyHoursOfOperation alloc] initWithWeekday:TTTTuesday] autorelease];
-	self.wednesdayHours = [[[TTTDailyHoursOfOperation alloc] initWithWeekday:TTTWednesday] autorelease];
-	self.thursdayHours = [[[TTTDailyHoursOfOperation alloc] initWithWeekday:TTTThursday] autorelease];
-	self.fridayHours = [[[TTTDailyHoursOfOperation alloc] initWithWeekday:TTTFriday] autorelease];
-	self.saturdayHours = [[[TTTDailyHoursOfOperation alloc] initWithWeekday:TTTSaturday] autorelease];
+	self.sundayHours = [[TTTDailyHoursOfOperation alloc] initWithWeekday:TTTSunday];
+	self.mondayHours = [[TTTDailyHoursOfOperation alloc] initWithWeekday:TTTMonday];
+	self.tuesdayHours = [[TTTDailyHoursOfOperation alloc] initWithWeekday:TTTTuesday];
+	self.wednesdayHours = [[TTTDailyHoursOfOperation alloc] initWithWeekday:TTTWednesday];
+	self.thursdayHours = [[TTTDailyHoursOfOperation alloc] initWithWeekday:TTTThursday];
+	self.fridayHours = [[TTTDailyHoursOfOperation alloc] initWithWeekday:TTTFriday];
+	self.saturdayHours = [[TTTDailyHoursOfOperation alloc] initWithWeekday:TTTSaturday];
 	
 	return self;
 }
