@@ -136,18 +136,13 @@ static inline double CLLocationSpeedToMilesPerHour(CLLocationSpeed speed) {
     self.bearingStyle = TTTBearingWordStyle;
     self.unitSystem = TTTMetricSystem;
     
-    self.numberFormatter = [[[NSNumberFormatter alloc] init] autorelease];
+    self.numberFormatter = [[NSNumberFormatter alloc] init];
     [self.numberFormatter setLocale:[NSLocale currentLocale]];
     [self.numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
     [self.numberFormatter setMaximumSignificantDigits:2];
     [self.numberFormatter setUsesSignificantDigits:YES];
     
     return self;
-}
-
-- (void)dealloc {
-    [_numberFormatter release];
-    [super dealloc];
 }
 
 - (NSString *)stringFromCoordinate:(CLLocationCoordinate2D)coordinate {
